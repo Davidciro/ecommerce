@@ -3,10 +3,17 @@ import type { AppLocale } from '~/composables/useAuth'
 
 const { locale, locales, t } = useI18n()
 const switchLocalePath = useSwitchLocalePath()
+const localePath = useLocalePath()
 const { isLoggedIn, profile, updateProfile } = useAuth()
 
 const available = computed(() =>
-  locales.value.map(l => (typeof l === 'string' ? { code: l, name: l, language: l } : l)),
+  locales.value.map((l) => {
+    const item = typeof l === 'string' ? { code: l, name: l, language: l } : l
+    // En rutas sin equivalente (p. ej. página de error 404) switchLocalePath devuelve '':
+    // en ese caso se enlaza a la portada del idioma elegido.
+    const to = switchLocalePath(item.code) || localePath('/', item.code)
+    return { ...item, to }
+  }),
 )
 
 // Guarda el idioma elegido en el perfil para emails y comunicaciones (no bloquea la navegación).
@@ -22,7 +29,7 @@ function onSelect(code: string) {
     <ul class="flex items-center gap-1 text-sm">
       <li v-for="l in available" :key="l.code">
         <NuxtLink
-          :to="switchLocalePath(l.code)"
+          :to="l.to"
           :hreflang="l.language"
           :lang="l.language"
           :aria-current="l.code === locale ? 'true' : undefined"

@@ -5,6 +5,12 @@ const props = defineProps<{ error: NuxtError }>()
 const { t } = useI18n()
 const localePath = useLocalePath()
 
+// error.vue sustituye a app.vue: hay que fijar aquí también <html lang>.
+const i18nHead = useLocaleHead({ lang: true, dir: true, seo: false })
+useHead(() => ({
+  htmlAttrs: { lang: i18nHead.value.htmlAttrs?.lang, dir: i18nHead.value.htmlAttrs?.dir },
+}))
+
 const code = computed(() => props.error?.statusCode ?? 500)
 const kind = computed(() => (code.value === 403 ? '403' : code.value === 404 ? '404' : '500'))
 
