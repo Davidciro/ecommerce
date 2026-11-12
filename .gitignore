@@ -147,3 +147,11 @@ vite.config.ts.timestamp-*
 
 # Turbo Repo
 .turbo
+
+# --- Proyecto: Nuxt / Nitro / Vercel / Supabase CLI ---
+.data
+.nitro
+.vercel
+.DS_Store
+supabase/.branches
+supabase/.temp
