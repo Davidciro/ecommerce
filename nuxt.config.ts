@@ -58,10 +58,11 @@ export default defineNuxtConfig({
     strategy: 'prefix',
     defaultLocale: DEFAULT_LOCALE,
     // `language` alimenta <html lang> y los hreflang (mercado suizo: fr-CH / de-CH)
+    // Textos públicos en {locale}.json y del panel admin en admin/{locale}.json (raíz "adm")
     locales: [
-      { code: 'fr', language: 'fr-CH', name: 'Français', file: 'fr.json' },
-      { code: 'de', language: 'de-CH', name: 'Deutsch', file: 'de.json' },
-      { code: 'es', language: 'es', name: 'Español', file: 'es.json' },
+      { code: 'fr', language: 'fr-CH', name: 'Français', files: ['fr.json', 'admin/fr.json'] },
+      { code: 'de', language: 'de-CH', name: 'Deutsch', files: ['de.json', 'admin/de.json'] },
+      { code: 'es', language: 'es', name: 'Español', files: ['es.json', 'admin/es.json'] },
     ],
     // Archivos en i18n/locales/*.json ; opciones de vue-i18n en i18n/i18n.config.ts
     langDir: 'locales',

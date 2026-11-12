@@ -14,21 +14,21 @@
 import type { H3Event } from 'h3'
 import type { JwtPayload, SupabaseClient } from '@supabase/supabase-js'
 import { serverSupabaseClient, serverSupabaseServiceRole, serverSupabaseUser } from '#supabase/server'
+// Import explícito (no vía alias #supabase/database) para que el typecheck del
+// proyecto y el de Nitro resuelvan el mismo tipo.
+import type { Database } from '../../types/database.types'
 
-/**
- * Cliente tipado con `Database` (types/database.types.ts) — el módulo lo aplica por
- * defecto; se infiere aquí para no depender del alias `#supabase/database`.
- */
-export type TypedSupabaseClient = ReturnType<typeof serverSupabaseServiceRole>
+/** Cliente tipado con el esquema generado (npm run db:types). */
+export type TypedSupabaseClient = SupabaseClient<Database>
 
 /** Cliente con la sesión del usuario actual (o anónimo). Respeta RLS. */
-export function useServerSupabase(event: H3Event): Promise<TypedSupabaseClient> {
-  return serverSupabaseClient(event)
+export async function useServerSupabase(event: H3Event): Promise<TypedSupabaseClient> {
+  return (await serverSupabaseClient<Database>(event)) as unknown as TypedSupabaseClient
 }
 
 /** Cliente privilegiado (secret / service_role key). Ignora RLS: usar con cuidado. */
 export function useSupabaseAdmin(event: H3Event): TypedSupabaseClient {
-  return serverSupabaseServiceRole(event)
+  return serverSupabaseServiceRole<Database>(event) as unknown as TypedSupabaseClient
 }
 
 /**

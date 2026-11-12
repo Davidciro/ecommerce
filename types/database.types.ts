@@ -987,6 +987,19 @@ export type Database = {
           user_id: string
         }[]
       }
+      admin_dashboard_stats: {
+        Args: never
+        Returns: {
+          active_products: number
+          customers: number
+          in_progress_orders: number
+          low_stock_products: number
+          needs_review_orders: number
+          pending_orders: number
+          subscribers: number
+          unhandled_messages: number
+        }[]
+      }
       admin_get_stripe_secrets_status: {
         Args: never
         Returns: {
@@ -1005,6 +1018,10 @@ export type Database = {
           product_id: string
           stock: number
         }[]
+      }
+      admin_reorder_product_images: {
+        Args: { p_image_ids: string[]; p_product_id: string }
+        Returns: undefined
       }
       admin_sales_report: {
         Args: { p_from: string; p_product_id?: string; p_to: string }

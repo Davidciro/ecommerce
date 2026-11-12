@@ -43,7 +43,9 @@ export function useAuth() {
   const user = useSupabaseUser()
   const profile = useState<Profile | null>('auth:profile', () => null)
   const localePath = useLocalePath()
-  const { locale } = useI18n()
+  // No usar useI18n(): solo funciona en setup() de componentes y useAuth también se
+  // llama desde middlewares de ruta. $i18n está disponible en todo el contexto Nuxt.
+  const locale = useNuxtApp().$i18n.locale
   const requestUrl = useRequestURL()
 
   const userId = computed(() => (user.value?.sub as string | undefined) ?? null)

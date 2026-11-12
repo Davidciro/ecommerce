@@ -150,3 +150,33 @@ del navegador (cookie `i18n_locale`), con `fr` como respaldo.
    `{{ .Data.locale }}` (fr/de/es, guardado al registrarse) para mostrar el texto en el idioma del cliente.
 5. **SMTP** (producción): configurar un SMTP propio. Resend ofrece SMTP compatible.
    El SMTP integrado de Supabase tiene límites muy bajos de envío.
+
+## 7. Panel de administración (Fase 3)
+
+Todas las páginas están en `pages/admin/**` (layout `admin`, middleware `admin`). Los textos del
+panel están en `i18n/locales/admin/{fr,de,es}.json`, bajo la clave raíz `adm`.
+
+| Módulo | Ruta | Acceso a datos |
+|---|---|---|
+| Dashboard | `/admin` | RPC `admin_sales_summary`, `admin_dashboard_stats`, `admin_low_stock_products` |
+| Pagos y tienda | `/admin/settings` | `store_settings` (RLS); llaves vía RPC write-only `admin_set_stripe_secrets`; prueba en `POST /api/admin/settings/stripe-test` |
+| Productos | `/admin/products`, `/new`, `/:id` | `products` + `product_costs` (RLS admin); imágenes en Storage `product-images` + RPC `admin_reorder_product_images` |
+| Contenidos | `/admin/cms`, `/:key` | `site_sections`; campos definidos en `utils/cms-schema.ts`; imágenes en `site-assets` |
+| SEO | `/admin/seo`, `/:id` | `seo_pages` (CRUD); el SEO de cada producto está en su ficha |
+| Pedidos | `/admin/orders`, `/:id` | lectura con RLS; estado en `POST /api/admin/orders/:id/status` (RPC + email); envío y notas directos (GRANT de columnas) |
+| Reportes | `/admin/reports` | RPC `admin_sales_report` / `admin_sales_summary`; CSV generado en el navegador |
+| Clientes | `/admin/customers` | RPC `admin_customers_overview`; CSV |
+| Campañas | `/admin/campaigns`, `/:id` | `email_campaigns`; envío en `POST /api/admin/campaigns/:id/send` (Resend batch); prueba en `/test` |
+| Mensajes | `/admin/messages` | `contact_messages` |
+
+**Imágenes:** se optimizan en el navegador antes de subirlas: lado mayor de 1600 px como máximo,
+WebP y como máximo 2 MB (`utils/image.ts`). La ruta `products/<id>/<uuid>.webp` la valida también un CHECK en BD.
+
+**Emails** (`server/utils/email.ts`, `server/emails/*`): se envían con la API HTTP de Resend.
+Las campañas solo van a suscriptores con `status = 'subscribed'`. Incluyen enlace de baja,
+cabeceras `List-Unsubscribe` y `List-Unsubscribe-Post` (RFC 8058) y el endpoint
+`/api/newsletter/unsubscribe` (GET y POST). El envío es síncrono, en lotes de 100: para audiencias
+de varios miles conviene pasarlo a una cola o a una Edge Function programada.
+
+**Migración necesaria:** `20261113000200_admin_helpers.sql`. Aplicarla con `npx supabase db push --remote`
+y después regenerar los tipos con `npm run db:types`.

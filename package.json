@@ -14,8 +14,10 @@
     "@nuxtjs/i18n": "^10.6.0",
     "@nuxtjs/supabase": "^2.1.0",
     "nuxt": "^3.21.11",
+    "stripe": "^23.1.0",
     "vue": "^3.5.45",
-    "vue-router": "^4.6.0"
+    "vue-router": "^4.6.0",
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.11",

@@ -2,25 +2,29 @@
 const { t } = useI18n()
 const localePath = useLocalePath()
 const { displayName, signOut } = useAuth()
+const route = useRoute()
 
 useSeoMeta({ robots: 'noindex, nofollow' })
 
-// Las secciones se activan a medida que se construyen en la Fase 3.
 const sections = computed(() => [
-  { key: 'dashboard', to: localePath('/admin'), label: t('admin.dashboard'), ready: true },
-  { key: 'products', to: localePath('/admin/products'), label: t('admin.sections.products'), ready: false },
-  { key: 'orders', to: localePath('/admin/orders'), label: t('admin.sections.orders'), ready: false },
-  { key: 'customers', to: localePath('/admin/customers'), label: t('admin.sections.customers'), ready: false },
-  { key: 'reports', to: localePath('/admin/reports'), label: t('admin.sections.reports'), ready: false },
-  { key: 'campaigns', to: localePath('/admin/campaigns'), label: t('admin.sections.campaigns'), ready: false },
-  { key: 'cms', to: localePath('/admin/cms'), label: t('admin.sections.cms'), ready: false },
-  { key: 'seo', to: localePath('/admin/seo'), label: t('admin.sections.seo'), ready: false },
-  { key: 'messages', to: localePath('/admin/messages'), label: t('admin.sections.messages'), ready: false },
-  { key: 'settings', to: localePath('/admin/settings'), label: t('admin.sections.settings'), ready: false },
+  { key: 'dashboard', to: localePath('/admin'), label: t('admin.dashboard'), ready: true, exact: true },
+  { key: 'orders', to: localePath('/admin/orders'), label: t('admin.sections.orders'), ready: true },
+  { key: 'products', to: localePath('/admin/products'), label: t('admin.sections.products'), ready: true },
+  { key: 'customers', to: localePath('/admin/customers'), label: t('admin.sections.customers'), ready: true },
+  { key: 'reports', to: localePath('/admin/reports'), label: t('admin.sections.reports'), ready: true },
+  { key: 'campaigns', to: localePath('/admin/campaigns'), label: t('admin.sections.campaigns'), ready: true },
+  { key: 'cms', to: localePath('/admin/cms'), label: t('admin.sections.cms'), ready: true },
+  { key: 'seo', to: localePath('/admin/seo'), label: t('admin.sections.seo'), ready: true },
+  { key: 'messages', to: localePath('/admin/messages'), label: t('admin.sections.messages'), ready: true },
+  { key: 'settings', to: localePath('/admin/settings'), label: t('admin.sections.settings'), ready: true },
 ])
 
+// Sección activa también en subrutas (p. ej. /admin/products/123)
+function isActive(s: { to: string, exact?: boolean }) {
+  return s.exact ? route.path === s.to : route.path === s.to || route.path.startsWith(`${s.to}/`)
+}
+
 const menuOpen = ref(false)
-const route = useRoute()
 watch(() => route.fullPath, () => { menuOpen.value = false })
 </script>
 
@@ -58,8 +62,9 @@ watch(() => route.fullPath, () => { menuOpen.value = false })
             <NuxtLink
               v-if="s.ready"
               :to="s.to"
-              class="flex items-center rounded-lg px-3 py-2 text-gray-700 hover:bg-gray-100"
-              exact-active-class="bg-brand-50 text-brand-700"
+              class="flex items-center rounded-lg px-3 py-2 hover:bg-gray-100"
+              :class="isActive(s) ? 'bg-brand-50 text-brand-700' : 'text-gray-700'"
+              :aria-current="isActive(s) ? 'page' : undefined"
             >
               {{ s.label }}
             </NuxtLink>
@@ -81,8 +86,9 @@ watch(() => route.fullPath, () => { menuOpen.value = false })
       </div>
     </aside>
 
-    <main id="main" class="flex-1 px-4 py-8 sm:px-6 lg:px-10">
+    <main id="main" class="min-w-0 flex-1 px-4 py-8 sm:px-6 lg:px-10">
       <slot />
     </main>
+    <AdminToaster />
   </div>
 </template>
