@@ -1,0 +1,157 @@
+{
+  "site": {
+    "skip_to_content": "Saltar al contenido"
+  },
+  "nav": {
+    "main": "Navegación principal",
+    "home": "Inicio",
+    "products": "Nuestros productos",
+    "about": "Quiénes somos",
+    "account": "Mi cuenta",
+    "admin": "Administración",
+    "login": "Iniciar sesión",
+    "logout": "Cerrar sesión",
+    "register": "Crear cuenta",
+    "open_menu": "Abrir menú",
+    "close_menu": "Cerrar menú"
+  },
+  "locale": {
+    "label": "Idioma",
+    "switch_to": "Cambiar a {language}"
+  },
+  "common": {
+    "loading": "Cargando…",
+    "save": "Guardar",
+    "saving": "Guardando…",
+    "saved": "Cambios guardados.",
+    "cancel": "Cancelar",
+    "back": "Volver",
+    "or": "o",
+    "optional": "opcional",
+    "show_password": "Mostrar contraseña",
+    "hide_password": "Ocultar contraseña"
+  },
+  "auth": {
+    "login": {
+      "title": "Iniciar sesión",
+      "subtitle": "Accede a tu cuenta y a tus pedidos.",
+      "email": "Correo electrónico",
+      "password": "Contraseña",
+      "submit": "Iniciar sesión",
+      "forgot": "¿Olvidaste tu contraseña?",
+      "no_account": "¿Aún no tienes cuenta?",
+      "register_link": "Crear cuenta",
+      "google": "Continuar con Google"
+    },
+    "register": {
+      "title": "Crear cuenta",
+      "subtitle": "Sigue tus pedidos y compra más rápido.",
+      "full_name": "Nombre completo",
+      "email": "Correo electrónico",
+      "password": "Contraseña",
+      "password_confirm": "Confirmar contraseña",
+      "password_hint": "Mínimo 8 caracteres.",
+      "accept_terms": "Acepto los {terms} y la {privacy}.",
+      "terms": "términos y condiciones",
+      "privacy": "política de privacidad",
+      "submit": "Crear mi cuenta",
+      "have_account": "¿Ya tienes cuenta?",
+      "login_link": "Iniciar sesión",
+      "check_email_title": "Revisa tu correo",
+      "check_email_body": "Enviamos un enlace de confirmación a {email}. Haz clic en él para activar tu cuenta."
+    },
+    "forgot": {
+      "title": "Recuperar contraseña",
+      "subtitle": "Escribe tu correo y te enviaremos un enlace para restablecerla.",
+      "submit": "Enviar enlace",
+      "sent": "Si existe una cuenta con ese correo, acabamos de enviar un enlace de restablecimiento.",
+      "back_to_login": "Volver a iniciar sesión"
+    },
+    "reset": {
+      "title": "Nueva contraseña",
+      "subtitle": "Elige una nueva contraseña para tu cuenta.",
+      "new_password": "Nueva contraseña",
+      "submit": "Actualizar contraseña",
+      "success": "Tu contraseña se actualizó correctamente.",
+      "no_session": "El enlace no es válido o ha caducado. Solicita uno nuevo."
+    },
+    "callback": {
+      "processing": "Iniciando sesión…",
+      "failed": "No se pudo iniciar sesión o el enlace ha caducado."
+    },
+    "admin_login": {
+      "title": "Panel de administración",
+      "subtitle": "Acceso exclusivo para el dueño de la tienda.",
+      "not_admin": "Esta cuenta no tiene acceso a la administración."
+    },
+    "errors": {
+      "invalid_credentials": "Correo o contraseña incorrectos.",
+      "email_not_confirmed": "Primero confirma tu correo electrónico.",
+      "user_exists": "Ya existe una cuenta con ese correo.",
+      "weak_password": "La contraseña es demasiado débil.",
+      "password_too_short": "La contraseña debe tener al menos 8 caracteres.",
+      "password_mismatch": "Las contraseñas no coinciden.",
+      "rate_limited": "Demasiados intentos. Vuelve a intentarlo en unos minutos.",
+      "invalid_email": "Correo electrónico no válido.",
+      "terms_required": "Debes aceptar las condiciones para continuar.",
+      "required": "Este campo es obligatorio.",
+      "generic": "Ocurrió un error. Inténtalo de nuevo."
+    }
+  },
+  "account": {
+    "title": "Mi cuenta",
+    "greeting": "Hola, {name}",
+    "profile_title": "Mis datos",
+    "full_name": "Nombre completo",
+    "phone": "Teléfono",
+    "email": "Correo",
+    "language": "Idioma preferido",
+    "newsletter_title": "Newsletter",
+    "newsletter_desc": "Recibe novedades y ofertas. Puedes darte de baja cuando quieras.",
+    "newsletter_on": "Quiero recibir la newsletter",
+    "orders_title": "Mis pedidos",
+    "orders_soon": "Aquí aparecerá el historial de tus pedidos.",
+    "security_title": "Seguridad",
+    "change_password": "Cambiar contraseña"
+  },
+  "admin": {
+    "title": "Administración",
+    "dashboard": "Panel",
+    "welcome": "Bienvenido, {name}",
+    "intro": "Gestiona tu tienda desde aquí.",
+    "back_to_store": "Ver la tienda",
+    "coming_soon": "Disponible próximamente",
+    "sections": {
+      "products": "Productos",
+      "cms": "Contenidos del sitio",
+      "seo": "SEO y palabras clave",
+      "orders": "Pedidos",
+      "customers": "Clientes",
+      "reports": "Reportes de ventas",
+      "campaigns": "Campañas de correo",
+      "messages": "Mensajes",
+      "settings": "Pagos y tienda"
+    }
+  },
+  "home": {
+    "title": "Bienvenido",
+    "intro": "Nuestra tienda online estará disponible muy pronto."
+  },
+  "footer": {
+    "rights": "Todos los derechos reservados.",
+    "legal": "Información legal",
+    "impressum": "Aviso legal",
+    "privacy": "Privacidad",
+    "terms": "Términos y condiciones",
+    "cookies": "Cookies"
+  },
+  "errors": {
+    "403_title": "Acceso denegado",
+    "403_body": "No tienes permisos para ver esta página.",
+    "404_title": "Página no encontrada",
+    "404_body": "La página que buscas no existe o fue movida.",
+    "500_title": "Error inesperado",
+    "500_body": "Tuvimos un problema. Inténtalo de nuevo más tarde.",
+    "go_home": "Volver al inicio"
+  }
+}

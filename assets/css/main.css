@@ -1,0 +1,54 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/forms";
+
+/* -----------------------------------------------------------------------------
+   Tokens de diseño (Tailwind v4: @theme genera utilidades bg-brand-600, etc.)
+   ----------------------------------------------------------------------------- */
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  --color-brand-50: oklch(0.97 0.02 160);
+  --color-brand-100: oklch(0.93 0.04 160);
+  --color-brand-500: oklch(0.62 0.13 160);
+  --color-brand-600: oklch(0.54 0.12 160);
+  --color-brand-700: oklch(0.46 0.10 160);
+  --color-brand-900: oklch(0.30 0.06 160);
+}
+
+@layer base {
+  html {
+    @apply bg-white text-gray-900 antialiased;
+  }
+
+  /* Foco visible y consistente para navegación por teclado (accesibilidad) */
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-brand-600;
+  }
+}
+
+/* Componentes reutilizables como utilidades (en v4 solo @utility admite @apply encadenado) */
+@utility btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold
+    transition-colors disabled:cursor-not-allowed disabled:opacity-60;
+}
+@utility btn-primary {
+  @apply btn bg-brand-600 text-white hover:bg-brand-700;
+}
+@utility btn-secondary {
+  @apply btn border border-gray-300 bg-white text-gray-800 hover:bg-gray-50;
+}
+@utility btn-ghost {
+  @apply btn text-gray-700 hover:bg-gray-100;
+}
+@utility form-label {
+  @apply mb-1 block text-sm font-medium text-gray-700;
+}
+@utility form-input {
+  @apply block w-full rounded-lg border-gray-300 text-sm shadow-sm focus:border-brand-600 focus:ring-brand-600;
+}
+@utility form-error {
+  @apply mt-1 text-sm text-red-600;
+}
+@utility card {
+  @apply rounded-2xl border border-gray-200 bg-white p-6 shadow-sm sm:p-8;
+}

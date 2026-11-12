@@ -114,3 +114,39 @@ npx supabase gen types typescript --linked > types/database.types.ts
 ```
 
 Crear el administrador: ver cabecera de `supabase/seed.sql`.
+
+## 6. Autenticación, roles e i18n (Fase 2)
+
+### Rutas
+Todas las rutas llevan prefijo de idioma (`/fr` por defecto, `/de`, `/es`). `/` redirige al idioma
+del navegador (cookie `i18n_locale`), con `fr` como respaldo.
+
+| Ruta | Acceso | Middleware |
+|---|---|---|
+| `/:locale/auth/login`, `/register`, `/forgot-password` | solo visitantes | `guest` |
+| `/:locale/auth/callback` | público (OAuth, confirmación de email, recuperación) | — |
+| `/:locale/auth/reset-password` | requiere sesión (de recuperación o normal) | — |
+| `/:locale/account` | cliente o admin con sesión | `auth` |
+| `/:locale/admin/login` | solo visitantes; rechaza cuentas sin rol admin | `guest` |
+| `/:locale/admin/**` | solo `role = 'admin'` (403 si no) | `admin` |
+| `/api/admin/**` | solo admin, verificado en servidor | `server/middleware/admin-api-guard.ts` |
+
+### Capas de autorización
+1. **UI**: `useAuth().isAdmin` (solo para mostrar u ocultar elementos).
+2. **Rutas**: los middlewares `auth` y `admin` (SSR y cliente) leen el rol desde `profiles`.
+3. **API**: `requireUser()` / `requireAdmin()` en `server/utils/supabase.ts`, más el guard global de `/api/admin/**`.
+4. **Datos**: las políticas RLS de Postgres. Es la única capa que no puede saltarse.
+
+### Configuración necesaria en el Dashboard de Supabase
+1. **Authentication → URL Configuration**
+   - *Site URL*: la URL de producción, por ejemplo `https://www.tu-tienda.ch`.
+   - *Redirect URLs*: `http://localhost:3000/**` y `https://www.tu-tienda.ch/**`.
+2. **Authentication → Sign In / Providers → Google**: activar el proveedor con el *Client ID* y el
+   *Client Secret* de Google Cloud Console (OAuth 2.0, tipo "Web application"). En Google, el
+   *Authorized redirect URI* es `https://<project-ref>.supabase.co/auth/v1/callback`.
+3. **Authentication → Sign In / Providers → Email**: dejar activado "Confirm email". Recomendado:
+   longitud mínima de contraseña 8.
+4. **Authentication → Emails → Templates** (opcional): las plantillas pueden usar
+   `{{ .Data.locale }}` (fr/de/es, guardado al registrarse) para mostrar el texto en el idioma del cliente.
+5. **SMTP** (producción): configurar un SMTP propio. Resend ofrece SMTP compatible.
+   El SMTP integrado de Supabase tiene límites muy bajos de envío.
